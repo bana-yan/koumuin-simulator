@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公務員年収シミュレーター｜退職金・手取りを無料で試算</title>
+<meta name="description" content="国家公務員・地方公務員の年収・手取り・退職金をリアルタイムで試算。全職種・全市区町村対応。ラスパイレス指数・管理職手当・各種手当を反映した日本最大級の公務員給与シミュレーター。">
+<meta name="keywords" content="公務員 年収 シミュレーター,公務員 給与 計算,公務員 退職金,手取り 計算,地方公務員 年収,国家公務員 給与,自衛官 退職金">
+<meta property="og:title" content="公務員年収シミュレーター｜退職金・手取りを無料で試算">
+<meta property="og:description" content="国家公務員・地方公務員の年収・手取り・退職金をリアルタイムで試算。全職種・全市区町村対応。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/tabler-icons.min.css">
+
+<!-- Google Analytics（GA4）- YOUR_GA_ID を実際のIDに差し替えてください -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
+
+<!-- Google AdSense - YOUR_ADSENSE_ID を実際のIDに差し替えてください -->
+<!--
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:#f8f9fa;color:#1a1a2e;font-size:15px}
+
+/* ===== ヘッダー ===== */
+.site-header{background:#1a1a2e;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.site-logo{color:#fff;font-size:15px;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:8px}
+.site-logo span{color:#4dabf7;font-size:18px}
+.header-nav{display:flex;gap:20px}
+.header-nav a{color:rgba(255,255,255,.6);text-decoration:none;font-size:13px;transition:color .2s}
+.header-nav a:hover{color:#fff}
+
+/* ===== ヒーローセクション ===== */
+.hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 60%,#0f3460 100%);padding:56px 24px 48px;text-align:center;color:#fff}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(77,171,247,.15);border:1px solid rgba(77,171,247,.3);border-radius:20px;padding:4px 14px;font-size:12px;color:#4dabf7;margin-bottom:20px}
+.hero h1{font-size:clamp(22px,5vw,36px);font-weight:700;line-height:1.4;margin-bottom:16px}
+.hero h1 em{color:#4dabf7;font-style:normal}
+.hero p{font-size:14px;color:rgba(255,255,255,.7);line-height:1.8;max-width:600px;margin:0 auto 32px}
+.hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:24px;font-weight:700;color:#4dabf7}
+.stat-label{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+
+/* ===== 広告エリア（AdSense用） ===== */
+.ad-area{background:#fff;border:1px solid #e9ecef;border-radius:8px;padding:16px;text-align:center;margin:16px 0;min-height:90px;display:flex;align-items:center;justify-content:center}
+.ad-label{font-size:10px;color:#bbb;text-align:center;margin-bottom:4px}
+
+/* ===== シミュレーター本体 ===== */
+.simulator-wrap{max-width:800px;margin:0 auto;padding:24px 16px 40px}
+
+/* 以下はv11のウィジェットスタイルをそのまま移植 */
+.w{padding:.5rem 0 2rem}
+.card{background:#fff;border:1px solid #e9ecef;border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.shd{font-size:10px;font-weight:500;letter-spacing:.08em;color:#adb5bd;text-transform:uppercase;margin-bottom:10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.jg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.kbtn{background:#fff;border:2px solid #dee2e6;border-radius:8px;padding:14px;cursor:pointer;text-align:left;width:100%;display:block;transition:border-color .15s,background .15s}
+.kbtn:hover{border-color:#adb5bd;background:#f8f9fa}
+.kbtn.on{border-color:#339af0!important;background:#e7f5ff!important}
+.kic{font-size:22px;color:#adb5bd;margin-bottom:5px}
+.kbtn.on .kic{color:#339af0}
+.knm{font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:2px}
+.kbtn.on .knm{color:#1864ab}
+.ksb{font-size:11px;color:#adb5bd;line-height:1.4}
+.kbtn.on .ksb{color:#339af0;opacity:.85}
+.jbtn{background:#fff;border:1.5px solid #dee2e6;border-radius:8px;padding:9px 10px;cursor:pointer;text-align:left;width:100%;display:block;transition:border-color .15s,background .15s}
+.jbtn:hover{border-color:#adb5bd;background:#f8f9fa}
+.jbtn.on{border-color:#339af0!important;background:#e7f5ff!important}
+.jic{font-size:16px;color:#adb5bd;margin-bottom:3px}
+.jbtn.on .jic{color:#339af0}
+.jnm{font-size:11px;font-weight:500;color:#1a1a2e;line-height:1.3}
+.jbtn.on .jnm{color:#1864ab}
+.jsb{font-size:10px;color:#adb5bd;margin-top:2px}
+.jbtn.on .jsb{color:#339af0}
+.fg label{font-size:11px;font-weight:500;color:#495057;display:block;margin-bottom:4px}
+.fg-sel{width:100%;font-size:13px;padding:7px 10px;border:1.5px solid #dee2e6;border-radius:8px;background:#fff;color:#1a1a2e;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+.fg-sel:focus{outline:none;border-color:#339af0}
+.fg-sel:disabled{opacity:.4;cursor:not-allowed;background:#f8f9fa}
+.itag{font-size:12px;padding:6px 10px;border-radius:8px;margin-top:8px;background:#f8f9fa;color:#666}
+.itag.hi{background:#e7f5ff;color:#1864ab}
+.ot-note{display:none;grid-column:1/-1;padding:8px 12px;background:#f8f9fa;border-radius:8px;font-size:11px;color:#666;line-height:1.6;border-left:3px solid #dee2e6;margin-top:4px}
+.isha-note{grid-column:1/-1;padding:10px 12px;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;font-size:11px;color:#444;line-height:1.7;margin-top:4px}
+.jt-note{padding:10px 12px;background:#f8f9fa;border-left:3px solid #339af0;border-radius:8px;font-size:11px;color:#444;line-height:1.7;margin-bottom:10px}
+.tck{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border:1.5px solid #dee2e6;border-radius:8px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s}
+.tck:hover{background:#f8f9fa}
+.tck.on{border-color:#339af0;background:#e7f5ff}
+.tck input[type=checkbox]{margin-top:2px;width:14px;height:14px;flex-shrink:0;cursor:pointer}
+.tnm{font-size:11px;font-weight:500;color:#1a1a2e;line-height:1.3}
+.tck.on .tnm{color:#1864ab}
+.tsb{font-size:10px;color:#adb5bd;margin-top:2px;line-height:1.4}
+.tck.on .tsb{color:#339af0}
+.tauto{grid-column:1/-1;padding:8px 10px;border:1.5px solid #339af0;border-radius:8px;background:#e7f5ff}
+.tsel{grid-column:1/-1;padding:8px 10px;border:1.5px solid #dee2e6;border-radius:8px;background:#fff}
+.tsel .tnm{font-size:11px;font-weight:500;color:#1a1a2e}
+.tsel .fg-sel{font-size:12px;padding:5px 8px;margin-top:5px}
+.hero-r{background:linear-gradient(135deg,#e7f5ff,#d0ebff);border-radius:12px;padding:22px;text-align:center;margin-bottom:12px}
+.hvl{font-size:11px;color:#1864ab;opacity:.8;margin-bottom:5px}
+.ham{font-size:40px;font-weight:700;line-height:1;color:#1864ab}
+.ham span{font-size:18px;font-weight:400;margin-left:3px}
+.hsu{font-size:11px;color:#1864ab;opacity:.75;margin-top:6px}
+.hero2-r{background:linear-gradient(135deg,#ebfbee,#d3f9d8);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
+.hvl2{font-size:11px;color:#2b8a3e;opacity:.8;margin-bottom:5px}
+.ham2{font-size:34px;font-weight:700;line-height:1;color:#2b8a3e}
+.ham2 span{font-size:16px;font-weight:400;margin-left:3px}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:9px;margin-bottom:12px}
+.sc{background:#f8f9fa;border-radius:8px;padding:11px}
+.sl{font-size:11px;color:#666;margin-bottom:3px}
+.sv{font-size:15px;font-weight:500;color:#1a1a2e}
+.sv.red{color:#e03131}
+.sv.grn{color:#2b8a3e}
+.sv.orn{color:#e67700}
+.bd{border:1px solid #e9ecef;border-radius:8px;overflow:hidden;margin-bottom:12px}
+.bdh{background:#f8f9fa;padding:8px 13px;font-size:11px;font-weight:500;color:#666}
+.bdr{display:flex;justify-content:space-between;align-items:center;padding:8px 13px;border-top:1px solid #e9ecef;font-size:12px}
+.bdr .l{color:#666}
+.bdr .r{font-weight:500;color:#1a1a2e}
+.bdr.neg .r{color:#e03131}
+.btot{background:#e7f5ff;border-top:1.5px solid #339af0}
+.btot .l,.btot .r{color:#1864ab}
+.btot .r{font-size:14px;font-weight:700}
+.btot2{background:#ebfbee;border-top:1.5px solid #40c057}
+.btot2 .l,.btot2 .r{color:#2b8a3e}
+.btot2 .r{font-size:14px;font-weight:700}
+.nt{font-size:10px;color:#adb5bd;line-height:1.7;padding:6px 0}
+.err{padding:18px;text-align:center;color:#adb5bd;font-size:12px;background:#f8f9fa;border-radius:8px;margin:8px 0}
+.ib{font-size:11px;background:#f8f9fa;border-radius:8px;padding:8px 12px;margin-bottom:10px;color:#666;line-height:1.6}
+.ib.b{background:#e7f5ff;color:#1864ab}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tab{padding:7px 14px;border-radius:8px;border:1.5px solid #dee2e6;background:#fff;cursor:pointer;font-size:12px;font-weight:500;color:#666;font-family:'Noto Sans JP',sans-serif;transition:border-color .15s,background .15s}
+.tab:hover{background:#f8f9fa}
+.tab.on{border-color:#339af0;background:#e7f5ff;color:#1864ab}
+.chart-wrap{position:relative;margin-bottom:8px}
+.tip{position:absolute;background:#fff;border:1px solid #e9ecef;border-radius:8px;padding:8px 12px;font-size:11px;pointer-events:none;display:none;z-index:10;min-width:175px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.tip-age{font-weight:500;color:#1a1a2e;margin-bottom:4px}
+.tip-row{display:flex;justify-content:space-between;gap:12px;color:#666;margin-top:2px}
+.tip-val{font-weight:500;color:#1a1a2e}
+.leg{display:flex;gap:14px;margin-bottom:8px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:#666}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+#pbw{position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #e9ecef;border-radius:10px;padding:10px 14px;font-size:11px;color:#666;z-index:999;min-width:180px;display:none;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+
+/* ===== 特徴セクション ===== */
+.features{background:#fff;padding:48px 24px;border-top:1px solid #e9ecef}
+.features-inner{max-width:800px;margin:0 auto}
+.section-title{text-align:center;font-size:20px;font-weight:700;margin-bottom:8px}
+.section-sub{text-align:center;font-size:13px;color:#666;margin-bottom:40px}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.feat{padding:20px;background:#f8f9fa;border-radius:12px}
+.feat-icon{font-size:28px;margin-bottom:12px}
+.feat-title{font-size:14px;font-weight:700;margin-bottom:6px}
+.feat-desc{font-size:12px;color:#666;line-height:1.7}
+
+/* ===== フッター ===== */
+.site-footer{background:#1a1a2e;color:rgba(255,255,255,.5);padding:32px 24px;text-align:center}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;transition:color .2s}
+.footer-links a:hover{color:#fff}
+.footer-copy{font-size:12px}
+.disclaimer{font-size:11px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.7}
+
+@media(max-width:600px){
+  .g2{grid-template-columns:1fr}
+  .g3{grid-template-columns:1fr 1fr}
+  .hero h1{font-size:20px}
+  .hero-stats{gap:16px}
+  .site-logo span{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- サイトヘッダー -->
+<header class="site-header">
+  <a href="index.html" class="site-logo">
+    <span>🏛️</span>公務員年収シミュレーター
+  </a>
+  <nav class="header-nav">
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="contact.html">お問い合わせ</a>
+  </nav>
+</header>
+
+<!-- ヒーローセクション -->
+<section class="hero">
+  <div class="hero-badge">🆕 令和6年度対応・無料</div>
+  <h1>公務員の年収・手取り・退職金を<br><em>リアルタイムで試算</em></h1>
+  <p>国家公務員・地方公務員の全職種・全市区町村に対応。<br>ラスパイレス指数・管理職手当・各種手当をすべて反映。</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">対応職種</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1,700+</div>
+      <div class="stat-label">市区町村対応</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">無料</div>
+      <div class="stat-label">登録不要</div>
+    </div>
+  </div>
+</section>
+
+<!-- 広告エリア（AdSense有効化後にコメントアウトを外す） -->
+<!--
+<div style="max-width:800px;margin:16px auto;padding:0 16px">
+  <p class="ad-label">広告</p>
+  <div class="ad-area">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+-->
+
+<!-- 進捗バー -->
+<div id="pbw">
+  <div id="pbl">準備中...</div>
+  <div style="background:#e9ecef;border-radius:2px;margin-top:6px;height:4px">
+    <div id="pbb" style="width:0%;height:4px;border-radius:2px;background:#339af0;transition:width .3s"></div>
+  </div>
+</div>
+
+<!-- シミュレーター本体 -->
+<div class="simulator-wrap">
+  <div class="w">
+    <div class="card">
+      <div class="shd">STEP 1　公務員の種別を選んでください</div>
+      <div class="g2" id="kindArea"></div>
+    </div>
+    <div id="MA"></div>
+  </div>
+</div>
+
+<!-- 広告エリア（シミュレーター下） -->
+<!--
+<div style="max-width:800px;margin:0 auto;padding:0 16px 24px">
+  <p class="ad-label">広告</p>
+  <div class="ad-area">
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+-->
+
+<!-- 特徴セクション -->
+<section class="features">
+  <div class="features-inner">
+    <h2 class="section-title">このシミュレーターの特徴</h2>
+    <p class="section-sub">公務員の給与制度を正確に反映した、日本最大級の試算ツールです</p>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon">🗾</div>
+        <div class="feat-title">全国1,700以上の市区町村に対応</div>
+        <div class="feat-desc">ラスパイレス指数と地域手当を反映。お住まいの自治体の実態に近い給与を試算できます。</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">💼</div>
+        <div class="feat-title">30以上の職種・役職に対応</div>
+        <div class="feat-desc">一般行政職から自衛官・医師・消防士・警察官まで。管理職手当も反映した精度の高い試算が可能です。</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">💰</div>
+        <div class="feat-title">退職金・若年給付金まで試算</div>
+        <div class="feat-desc">平成30年改正後の正しい支給率で退職金を計算。自衛官の若年定年退職者給付金にも対応。</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📊</div>
+        <div class="feat-title">年収推移グラフで一目瞭然</div>
+        <div class="feat-desc">額面・手取り・退職手当の3ラインを同時表示。定年までのキャリアシミュレーションができます。</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔒</div>
+        <div class="feat-title">入力情報はサーバーに送信しない</div>
+        <div class="feat-desc">すべての計算はブラウザ上で完結。年齢・地域などの情報は外部に送信されません。</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">✅</div>
+        <div class="feat-title">法的根拠に基づいた計算</div>
+        <div class="feat-desc">給与法・退職手当法・人事院規則など公式資料をもとに計算ロジックを構築しています。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- フッター -->
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="index.html">トップ</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="contact.html">お問い合わせ</a>
+  </div>
+  <p class="footer-copy">© 2025 公務員年収シミュレーター</p>
+  <p class="disclaimer">
+    本シミュレーターは参考値の提供を目的としており、実際の給与・退職金を保証するものではありません。<br>
+    計算結果の利用により生じた損害について、当サイトは責任を負いかねます。<br>
+    実際の給与・制度については各省庁・自治体の公式情報をご確認ください。
+  </p>
+</footer>
+
+<script>
+// ===== 進捗バー =====
+var _pt=null;
+function sp(l,p){var w=document.getElementById('pbw'),lb=document.getElementById('pbl'),b=document.getElementById('pbb');if(!w)return;w.style.display='block';if(lb)lb.textContent=l;if(b)b.style.width=Math.min(100,p)+'%';}
+function hp(){clearTimeout(_pt);var w=document.getElementById('pbw');if(w)w.style.display='none';}
+function tp(steps){var i=0;function nx(){if(i>=steps.length){hp();return;}var s=steps[i++];sp(s.l,s.p);_pt=setTimeout(nx,s.ms);}nx();}
+
+// ===== 俸給データ =====
+var S={
+  gi:[0,0,0,0,185200,191500,196900,202400,208100,214000,219800,228300,236900,242500,250200,258100,266400,278700,286500,294600,303100,311800,321200,332800,344300,355700,364800,372100,378600,383900,388500,392100,395000,397200,398800,400000,401000,401800,402400,402800,403100,403300,403500],
+  gs:[0,0,0,0,196900,208100,219800,228300,243000,258100,272400,287000,303100,321200,344300,365800,387400,413500,432600,451800,463500,473200,481500,489200,494800,499400,502800,505800,508200,510200,511800,513100,514000,514700,515300,515800,516200,516500,516700,516900,517100,517200,517300],
+  po:[172000,178000,183800,190000,196500,203200,210000,217100,224500,232000,239800,248300,257000,265200,272800,280100,287200,294100,300900,307400,313700,319700,325300,330500,335200,339700,344000,348100,351800,355200,358400,361200,363900,366400,368600,370600,372400,374000,375400,376700,377800,378700,379500],
+  sh:[168000,173800,179600,185500,191600,197800,204200,210700,217300,224000,231000,238100,245300,252200,258900,265200,271200,277000,282400,287700,292600,297300,301600,305600,309300,312700,315800,318700,321400,323800,326000,328000,329800,331400,332800,334100,335200,336200,337100,337800,338500,339000,339500],
+  te:[0,0,192000,199000,207200,215700,224400,233400,242700,252300,262200,272400,282900,293300,303500,313200,322500,331200,339500,347200,354400,361100,367200,372900,378000,382700,386900,390700,394100,397100,399800,402100,404200,406000,407600,409000,410200,411200,412100,412800,413400,413900,414300],
+  th:[0,0,0,0,210500,219400,228600,238000,247700,257700,268000,278600,289300,299900,310200,320000,329300,338000,346200,353900,361000,367600,373600,379100,384100,388700,392800,396500,399800,402700,405300,407600,409600,411400,413000,414300,415500,416500,417400,418100,418700,419200,419600],
+  is:[0,0,0,0,0,0,0,0,0,0,320000,360000,400000,437000,472000,503000,530000,554000,575000,593000,609000,623000,635000,645000,654000,661000,668000,673000,678000,682000,685000,688000,690000,692000,694000,695000,696000,697000,698000,698500,699000,699500,700000],
+  ns:[0,0,185200,191500,198000,204700,211600,218700,226000,233500,241200,248900,256600,264100,271400,278300,284900,291200,297100,302800,308000,312900,317400,321600,325500,329000,332300,335300,338000,340500,342700,344700,346500,348100,349500,350700,351800,352700,353500,354200,354800,355300,355700],
+  ph:[0,0,190000,196800,203800,211000,218400,226000,233800,241700,249700,257500,265100,272400,279400,286100,292400,298300,303900,309100,314000,318500,322700,326500,330100,333300,336300,339000,341500,343700,345700,347500,349100,350500,351700,352800,353700,354500,355200,355800,356300,356700,357000],
+  ke:[0,0,0,0,210000,219000,228300,237800,247600,257600,267900,278500,289400,300500,311800,323100,334200,345100,355600,365600,374900,383600,391800,399400,406400,412900,418900,424400,429400,433900,438000,441600,444800,447700,450200,452400,454300,456000,457400,458600,459600,460400,461000],
+  fw:[163000,167800,172700,177800,183000,188400,193900,199600,205400,211300,217300,223300,229200,235000,240700,246100,251400,256400,261200,265800,270100,274200,278000,281600,284900,288000,290900,293500,295900,298100,300100,301900,303500,305000,306300,307500,308500,309400,310200,310900,311500,312000,312400],
+  gn:[158000,162300,166700,171200,175800,180500,185300,190200,195200,200300,205400,210400,215400,220300,225000,229600,234000,238200,242200,246000,249600,253000,256200,259200,262000,264600,267000,269300,271400,273300,275100,276700,278100,279400,280600,281700,282600,283400,284100,284700,285200,285600,286000],
+  kg:[168000,173000,178100,183300,188700,194200,199900,205700,211600,217700,223800,230000,236200,242300,248200,253900,259400,264700,269700,274500,279000,283200,287200,291000,294500,297800,300900,303800,306500,309000,311300,313400,315300,317100,318700,320100,321400,322500,323500,324400,325200,325900,326500],
+  jt:[0,0,0,0,166300,172900,179700,186700,193900,201300,208900,216700,224700,232800,241100,249500,258100,266800,275600,284500,293500,302500,311600,320700,329800,338800,347800,356600,365100,373300,381200,388800,396000,402700,409000,414900,420300,425200,429800,434000,437800,441200,444300],
+  zm:[0,0,0,0,190500,198300,206300,214500,222900,231500,240200,249100,258100,267200,276300,285300,294200,302800,311200,319200,326900,334200,341100,347600,353700,359400,364700,369700,374300,378600,382500,386100,389400,392400,395100,397500,399700,401600,403300,404800,406100,407200,408200],
+  k1:[0,0,0,0,179800,187000,194400,202000,209800,217800,225900,234100,242500,250900,259200,267400,275400,283100,290600,297800,304700,311300,317600,323600,329300,334700,339800,344600,349200,353500,357600,361400,365000,368300,371400,374300,377000,379500,381800,383900,385800,387500,389100],
+  k2:[0,0,0,0,185200,192800,200600,208600,216800,225200,233800,242500,251300,260100,268800,277300,285600,293700,301500,309000,316200,323100,329700,336000,342000,347700,353000,358100,362900,367400,371700,375700,379400,382900,386100,389100,391900,394500,396800,399000,401000,402800,404400],
+  ks:[0,0,0,0,215000,224000,233300,242800,252500,262500,272700,283100,293600,304200,314700,325000,335100,344900,354500,363700,372600,381100,389200,396900,404200,411100,417700,423900,429700,435100,440100,444800,449100,453100,456800,460200,463300,466100,468700,471000,473100,474900,476500]
+};
+
+var MK={
+  gyosei:[['係員〜課長補佐（管理職手当なし）',0,27100,0],['課長・参事相当',72700,48350,440000],['部長・局長相当',94000,54150,480000],['本府省室長・課長（7〜10級）',130300,65750,510000]],
+  gyosei_ch:[['係員〜課長補佐・副参事（手当なし）',0,27100,0],['課長・参事相当',72700,48350,435000],['部長・局長・次長相当',94000,54150,475000]],
+  police:[['巡査〜警部補（管理職手当なし）',0,27100,0],['警部',40000,43350,390000],['警視',60000,54150,440000],['警視正以上',80000,65750,480000]],
+  shobo:[['消防士〜消防司令補（管理職手当なし）',0,27100,0],['消防司令長（課長相当）',46300,43350,360000],['消防監以上',60000,54150,410000]],
+  jieitai:[['2士〜士長（手当なし）',0,0,0,0,0],['3曹〜曹長（手当なし）',0,27100,0,55,3],['准尉（手当なし）',0,27100,0,55,3],['3尉〜1尉（初級幹部）',20000,27100,0,55,0],['3佐〜2佐（中級幹部）',50000,43350,0,56,0],['1佐（上級幹部）',70000,54150,0,57,0],['将補・将（高級幹部）',100000,65750,0,60,0]],
+  teacher:[['教諭・講師・主幹教諭・指導教諭（手当なし）',0,21700,0],['教頭（副校長）',40000,43350,420000],['校長',75000,54150,460000]],
+  ishi:[['医員・医長・副医長（管理職手当なし）',0,21700,0],['部長・科長相当',65000,54150,730000],['副院長・院長',94000,65750,790000]],
+  nurse:[['看護師（スタッフ）・主任看護師（手当なし）',0,21700,0],['看護師長',30000,32500,360000],['看護部長・副看護部長',50000,43350,390000]],
+  yakuzai:[['薬剤師・栄養士スタッフ・主任（手当なし）',0,21700,0],['薬剤部長・栄養科長等',40000,43350,370000]],
+  kenkyu:[['研究員・主任研究員（管理職手当なし）',0,21700,0],['研究室長・課長相当',46300,43350,430000],['部長・センター長相当',72700,54150,470000]],
+  fukushi:[['保育士・支援員・主任・副園長（手当なし）',0,21700,0],['園長・施設長',46300,32500,320000]],
+  gino:[['全職位（管理職手当の対象外）',0,21700,0]],
+  kigyo:[['技術員・事務員〜係長（管理職手当なし）',0,27100,0],['課長相当',60000,43350,420000],['部長・局長相当',72700,54150,460000]],
+  zeimu:[['調査官・統括国税調査官（手当なし）',0,27100,0],['副署長・課長相当',72700,48350,440000],['税務署長・部門長相当',94000,54150,480000]],
+  koan:[['一般職員〜課長補佐・副長（手当なし）',0,27100,0],['課長・施設長相当',72700,43350,430000]],
+  kansei:[['管制官・主任管制官（管理職手当なし）',0,27100,0],['管制課長相当',60000,43350,430000]]
+};
+
+function getAdjustedKyuyo(bk,m){var f=m[3]||0;return f>0?Math.max(bk,f):bk;}
+function getJtTeinAge(m){return m[4]||0;}
+function getJtJozan(m){return m[5]||0;}
+function getJtNen(n,m){return Math.max(0,n-(m[5]||0));}
+var TAI_DATA=[[1,0.5022],[2,1.0044],[3,1.5066],[4,2.0088],[5,2.511],[6,3.0132],[7,3.5154],[8,4.0176],[9,4.5198],[10,5.022],[11,5.6748],[12,6.3276],[13,6.9804],[14,7.6332],[15,8.286],[16,8.9388],[17,9.5916],[18,10.2444],[19,10.8972],[20,19.6695],[21,20.445],[22,21.2205],[23,21.996],[24,22.7715],[25,28.0395],[26,29.0235],[27,30.0075],[28,30.9915],[29,31.9755],[30,34.5825],[31,35.8125],[32,37.0425],[33,38.2725],[34,39.5025],[35,41.325],[36,42.591],[37,43.857],[38,47.709],[39,47.709],[40,47.709],[41,47.709],[42,47.709],[43,47.709]];
+var TAI_RATE={};TAI_DATA.forEach(function(r){TAI_RATE[r[0]]=r[1];});
+function getTaiRate(n){return TAI_RATE[Math.min(Math.max(Math.round(n),1),43)]||0;}
+function calcChosei(m,n,type,isJ){var c=m[2]||0;if(isJ&&(n<25||c===0))return 0;var full=Math.round(c*Math.min(n*12,60));if(type==='teinen')return full;if(n<=9)return 0;if(n<=24)return Math.round(full/2);return full;}
+function calcTaishoku(ky,n,type,m,isJ){return Math.round(ky*getTaiRate(n))+calcChosei(m,n,type,isJ);}
+var JRATE=0.60;
+function calcJakunen(ky,ta){
+  if(!ta||ta>=60)return{to60:0,to65:0,total:0,totalFull:0,totalAdj:0,to60Full:0,to65Full:0};
+  var t0f=Math.round(ky*6*(60-ta)),t5f=Math.round(ky*3.45*5),tf=t0f+t5f,ta2=Math.round(tf*JRATE);
+  return{to60:Math.round(t0f*JRATE),to65:Math.round(t5f*JRATE),total:ta2,totalFull:tf,totalAdj:ta2,to60Full:t0f,to65Full:t5f};
+}
+var KJ=[
+  {id:'jt',nm:'自衛官',ic:'ti-shield',sub:'自衛官俸給表',sk:'jt',mk:'jieitai',ma:{u:18,j:18,h:18},ot:false,sp:'jieitai'},
+  {id:'gs',nm:'一般行政職（総合職）',ic:'ti-building-bank',sub:'行政職俸給表（一）',sk:'gs',mk:'gyosei',ma:{u:22,j:20,h:18},ot:true,sp:'honpo'},
+  {id:'gi',nm:'一般行政職（一般職）',ic:'ti-building',sub:'行政職俸給表（一）',sk:'gi',mk:'gyosei',ma:{u:22,j:20,h:18},ot:true},
+  {id:'zm',nm:'税務職（国税専門官）',ic:'ti-receipt-tax',sub:'税務職俸給表',sk:'zm',mk:'zeimu',ma:{u:22,j:20,h:18},ot:true},
+  {id:'k1a',nm:'刑務官・法務教官',ic:'ti-door',sub:'公安職俸給表（一）',sk:'k1',mk:'koan',ma:{u:22,j:20,h:18},ot:true},
+  {id:'k1b',nm:'入国警備官',ic:'ti-passport',sub:'公安職俸給表（一）',sk:'k1',mk:'koan',ma:{u:22,j:20,h:18},ot:true},
+  {id:'k1c',nm:'皇宮護衛官',ic:'ti-crown',sub:'公安職俸給表（一）',sk:'k1',mk:'koan',ma:{u:22,j:20,h:18},ot:true},
+  {id:'k2a',nm:'海上保安官',ic:'ti-anchor',sub:'公安職俸給表（二）',sk:'k2',mk:'koan',ma:{u:22,j:20,h:18},ot:true},
+  {id:'k2b',nm:'検察事務官',ic:'ti-scale',sub:'公安職俸給表（二）',sk:'k2',mk:'koan',ma:{u:22,j:20,h:18},ot:true},
+  {id:'k2c',nm:'公安調査官',ic:'ti-eye',sub:'公安職俸給表（二）',sk:'k2',mk:'koan',ma:{u:22,j:20,h:18},ot:true},
+  {id:'ks',nm:'航空管制官',ic:'ti-radar',sub:'専門行政職俸給表',sk:'ks',mk:'kansei',ma:{u:22,j:20,h:18},ot:true},
+  {id:'is_k',nm:'医師・歯科医師（国立病院）',ic:'ti-stethoscope',sub:'医療職俸給表（一）',sk:'is',mk:'ishi',ma:{u:28,j:28,h:28},ot:true,sp:'ishi'},
+  {id:'ns_k',nm:'看護師・保健師（国立病院）',ic:'ti-heart-handshake',sub:'医療職俸給表（三）',sk:'ns',mk:'nurse',ma:{u:22,j:20,h:null},ot:true,sp:'nurse'},
+  {id:'ph_k',nm:'薬剤師・栄養士等（国立病院）',ic:'ti-pill',sub:'医療職俸給表（二）',sk:'ph',mk:'yakuzai',ma:{u:22,j:20,h:null},ot:true},
+  {id:'ke_k',nm:'研究職（国立研究所等）',ic:'ti-microscope',sub:'研究職俸給表',sk:'ke',mk:'kenkyu',ma:{u:22,j:null,h:null},ot:true},
+  {id:'fw_k',nm:'福祉職（障害者支援等）',ic:'ti-hand-love',sub:'福祉職俸給表',sk:'fw',mk:'fukushi',ma:{u:22,j:20,h:18},ot:true}
+];
+var PJ=[
+  {id:'gi_p',nm:'一般行政職',ic:'ti-building',sub:'都道府県（知事部局）',sk:'gi',mk:'gyosei_ch',ma:{u:22,j:20,h:18},ot:true},
+  {id:'po_p',nm:'警察官',ic:'ti-shield-check',sub:'都道府県警察',sk:'po',mk:'police',ma:{u:22,j:20,h:18},ot:true},
+  {id:'th_p',nm:'高校教員',ic:'ti-certificate',sub:'都道府県教育委員会',sk:'th',mk:'teacher',ma:{u:22,j:null,h:null},ot:false,sp:'kyoshoku'},
+  {id:'is_p',nm:'医師・歯科医師',ic:'ti-stethoscope',sub:'都道府県立病院',sk:'is',mk:'ishi',ma:{u:28,j:28,h:28},ot:true,sp:'ishi'},
+  {id:'ns_p',nm:'看護師・保健師',ic:'ti-heart-handshake',sub:'都道府県立病院・保健所',sk:'ns',mk:'nurse',ma:{u:22,j:20,h:null},ot:true,sp:'nurse'},
+  {id:'ph_p',nm:'薬剤師・栄養士等',ic:'ti-pill',sub:'都道府県立病院・衛生研究所',sk:'ph',mk:'yakuzai',ma:{u:22,j:20,h:null},ot:true},
+  {id:'ke_p',nm:'研究職',ic:'ti-microscope',sub:'都道府県立試験研究機関',sk:'ke',mk:'kenkyu',ma:{u:22,j:null,h:null},ot:true},
+  {id:'fw_p',nm:'福祉職（保育士等）',ic:'ti-hand-love',sub:'都道府県立福祉施設',sk:'fw',mk:'fukushi',ma:{u:22,j:20,h:18},ot:true},
+  {id:'gn_p',nm:'技能労務職',ic:'ti-tool',sub:'都道府県（現業職）',sk:'gn',mk:'gino',ma:{u:22,j:20,h:18},ot:true},
+  {id:'kg_p',nm:'企業職（公営企業）',ic:'ti-building-factory',sub:'都道府県営企業',sk:'kg',mk:'kigyo',ma:{u:22,j:20,h:18},ot:true}
+];
+var CJ=[
+  {id:'gi_c',nm:'一般行政職',ic:'ti-building',sub:'市区町村（一般事務）',sk:'gi',mk:'gyosei_ch',ma:{u:22,j:20,h:18},ot:true,mp:0},
+  {id:'te_c',nm:'教員（小中学校）',ic:'ti-school',sub:'市区町村教育委員会',sk:'te',mk:'teacher',ma:{u:22,j:20,h:null},ot:false,sp:'kyoshoku',mp:0},
+  {id:'sh_c',nm:'消防士',ic:'ti-flame',sub:'市区町村消防本部',sk:'sh',mk:'shobo',ma:{u:22,j:20,h:18},ot:true,mp:30},
+  {id:'fw_c',nm:'福祉職（保育士等）',ic:'ti-baby-carriage',sub:'市区町村立福祉施設',sk:'fw',mk:'fukushi',ma:{u:22,j:20,h:18},ot:true,mp:0},
+  {id:'gn_c',nm:'技能労務職',ic:'ti-tool',sub:'市区町村（現業職）',sk:'gn',mk:'gino',ma:{u:22,j:20,h:18},ot:true,mp:0},
+  {id:'kg_c',nm:'企業職（公営企業）',ic:'ti-building-factory',sub:'市区町村営企業（水道等）',sk:'kg',mk:'kigyo',ma:{u:22,j:20,h:18},ot:true,mp:10},
+  {id:'is_c',nm:'医師・歯科医師',ic:'ti-stethoscope',sub:'市区町村立病院',sk:'is',mk:'ishi',ma:{u:28,j:28,h:28},ot:true,sp:'ishi',mp:100},
+  {id:'ns_c',nm:'看護師・保健師',ic:'ti-heart-handshake',sub:'市区町村立病院・保健センター',sk:'ns',mk:'nurse',ma:{u:22,j:20,h:null},ot:true,sp:'nurse',mp:50},
+  {id:'ph_c',nm:'薬剤師・栄養士等',ic:'ti-pill',sub:'市区町村立病院',sk:'ph',mk:'yakuzai',ma:{u:22,j:20,h:null},ot:true,mp:100},
+  {id:'ke_c',nm:'研究職',ic:'ti-microscope',sub:'市区町村立研究機関',sk:'ke',mk:'kenkyu',ma:{u:22,j:null,h:null},ot:true,mp:500}
+];
+var JTH=[
+  {id:'jt1',nm:'航空手当（戦闘機操縦士）',info:'階級初号俸×80%',rate:0.80,base:'sh'},
+  {id:'jt2',nm:'航空手当（輸送機・哨戒機等）',info:'階級初号俸×60%',rate:0.60,base:'sh'},
+  {id:'jt3',nm:'乗組手当（潜水艦）',info:'俸給月額×55.5%',rate:0.555,base:'ky'},
+  {id:'jt4',nm:'乗組手当（護衛艦等）',info:'俸給月額×43%',rate:0.43,base:'ky'},
+  {id:'jt5',nm:'特殊作戦隊員手当（特殊作戦群）',info:'階級初号俸×49.5%',rate:0.495,base:'sh'},
+  {id:'jt6',nm:'特別警備隊員手当',info:'階級初号俸×49.5%',rate:0.495,base:'sh'},
+  {id:'jt7',nm:'特殊作戦隊員手当（水陸機動団）',info:'階級初号俸×33%',rate:0.33,base:'sh'},
+  {id:'jt8',nm:'落下傘隊員手当（第1空挺団等）',info:'階級初号俸×30.25%',rate:0.3025,base:'sh'}
+];
+var SHOGO=294900;
+var PL=[['北海道',99.0,1],['青森県',96.8,0],['岩手県',99.4,0],['宮城県',100.0,3],['秋田県',100.1,0],['山形県',100.2,0],['福島県',100.0,0],['茨城県',100.2,6],['栃木県',99.4,4],['群馬県',100.0,2],['埼玉県',100.3,8],['千葉県',99.6,9],['東京都',100.5,20],['神奈川県',100.0,12],['新潟県',99.5,2],['富山県',99.2,2],['石川県',99.5,2],['福井県',99.0,1],['山梨県',100.5,3],['長野県',100.0,2],['岐阜県',99.3,2],['静岡県',102.2,4],['愛知県',101.0,8],['三重県',101.1,5],['滋賀県',99.6,6],['京都府',99.4,7],['大阪府',100.4,12],['兵庫県',99.3,7],['奈良県',99.1,7],['和歌山県',99.5,4],['鳥取県',96.6,0],['島根県',98.2,0],['岡山県',100.3,2],['広島県',100.9,5],['山口県',99.3,0],['徳島県',99.0,2],['香川県',99.7,3],['愛媛県',98.4,0],['高知県',98.7,0],['福岡県',100.8,5],['佐賀県',99.6,0],['長崎県',98.4,2],['熊本県',99.3,0],['大分県',99.8,0],['宮崎県',97.3,0],['鹿児島県',96.3,0],['沖縄県',97.8,0]];
+var MD=[{p:"北海道",c:[["札幌市",99.2,3,1973],["函館市",97.6,0,244],["旭川市",98.7,0,322],["釧路市",98.9,0,162],["帯広市",99.1,0,168],["苫小牧市",98.1,0,171],["江別市",97.9,4,118],["千歳市",97.2,4,99]]},{p:"青森県",c:[["青森市",96.2,0,277],["弘前市",94.0,0,168],["八戸市",97.5,0,222],["五所川原市",96.9,0,56],["むつ市",97.4,0,56]]},{p:"岩手県",c:[["盛岡市",98.4,0,286],["宮古市",95.8,0,52],["花巻市",96.7,0,93],["北上市",98.8,0,93],["一関市",97.4,0,113]]},{p:"宮城県",c:[["仙台市",102.3,6,1092],["石巻市",97.3,0,143],["気仙沼市",98.5,0,62],["名取市",97.4,3,83],["大崎市",98.2,0,130]]},{p:"秋田県",c:[["秋田市",98.5,0,301],["能代市",97.7,0,50],["横手市",97.5,0,86],["大館市",96.5,0,68]]},{p:"山形県",c:[["山形市",98.9,0,249],["米沢市",98.4,0,80],["鶴岡市",97.7,0,120],["酒田市",98.2,0,100]]},{p:"福島県",c:[["福島市",98.7,0,285],["会津若松市",98.1,0,119],["郡山市",99.2,0,322],["いわき市",98.7,0,342]]},{p:"茨城県",c:[["水戸市",100.1,4,270],["日立市",98.6,4,176],["土浦市",99.1,4,144],["つくば市",101.2,16,247],["守谷市",100.1,16,69]]},{p:"栃木県",c:[["宇都宮市",100.2,4,519],["足利市",98.5,4,150],["栃木市",98.3,4,161],["小山市",99.0,4,167]]},{p:"群馬県",c:[["前橋市",99.4,4,337],["高崎市",99.6,4,372],["桐生市",98.9,4,106],["伊勢崎市",98.8,4,211]]},{p:"埼玉県",c:[["さいたま市",101.1,15,1349],["川越市",100.5,8,359],["熊谷市",99.2,8,192],["川口市",101.1,8,606],["所沢市",100.3,8,340],["越谷市",101.3,12,341],["和光市",101.5,16,83]]},{p:"千葉県",c:[["千葉市",100.5,15,979],["市川市",101.4,12,494],["船橋市",101.5,12,647],["松戸市",101.5,12,495],["柏市",101.3,12,437],["浦安市",101.6,12,169]]},{p:"東京都",c:[["特別区（23区）",102.0,20,9600],["八王子市",101.2,16,578],["立川市",101.0,16,182],["武蔵野市",102.1,20,147],["府中市",101.8,20,261],["町田市",101.5,20,433]]},{p:"神奈川県",c:[["横浜市",100.0,16,3770],["川崎市",100.2,16,1540],["相模原市",98.2,12,723],["横須賀市",100.2,12,395],["藤沢市",101.4,16,441],["厚木市",101.2,20,222]]},{p:"新潟県",c:[["新潟市",98.4,3,789],["長岡市",98.7,0,265],["三条市",98.2,0,97],["上越市",99.0,0,189]]},{p:"富山県",c:[["富山市",100.0,0,415],["高岡市",98.9,0,165],["射水市",99.0,0,93]]},{p:"石川県",c:[["金沢市",100.5,4,465],["小松市",99.3,0,107],["白山市",99.0,0,113],["野々市市",99.2,4,56]]},{p:"福井県",c:[["福井市",99.7,0,264],["敦賀市",99.2,0,65],["越前市",98.9,0,83]]},{p:"山梨県",c:[["甲府市",99.7,0,185],["甲斐市",99.1,0,74],["南アルプス市",98.3,0,74]]},{p:"長野県",c:[["長野市",100.3,0,368],["松本市",99.5,0,238],["上田市",98.7,0,155],["佐久市",98.8,0,99]]},{p:"岐阜県",c:[["岐阜市",100.6,4,400],["大垣市",99.3,4,164],["各務原市",100.3,4,150]]},{p:"静岡県",c:[["静岡市",100.9,6,695],["浜松市",100.0,3,797],["沼津市",99.8,8,192],["富士市",100.5,8,248]]},{p:"愛知県",c:[["名古屋市",98.8,15,2330],["豊橋市",100.5,8,379],["岡崎市",101.0,8,385],["一宮市",100.5,8,381],["刈谷市",102.2,16,151],["豊田市",101.8,16,422]]},{p:"三重県",c:[["津市",99.9,4,277],["四日市市",100.5,4,316],["伊勢市",98.7,4,124],["松阪市",98.9,4,165]]},{p:"滋賀県",c:[["大津市",101.0,8,344],["彦根市",99.6,4,113],["草津市",100.9,8,143]]},{p:"京都府",c:[["京都市",101.5,10,1467],["宇治市",101.2,12,188],["長岡京市",101.5,12,82]]},{p:"大阪府",c:[["大阪市",99.0,16,2750],["堺市",100.4,10,838],["豊中市",102.3,16,406],["吹田市",102.2,16,387],["高槻市",102.0,16,352],["東大阪市",101.2,12,499]]},{p:"兵庫県",c:[["神戸市",100.1,12,1522],["姫路市",100.1,8,530],["尼崎市",101.3,12,455],["西宮市",102.1,16,491],["明石市",101.1,12,302]]},{p:"奈良県",c:[["奈良市",100.2,4,355],["橿原市",99.7,4,124],["生駒市",100.8,8,118]]},{p:"和歌山県",c:[["和歌山市",100.0,4,357],["橋本市",98.7,0,60]]},{p:"鳥取県",c:[["鳥取市",99.7,0,188],["米子市",99.1,0,150],["倉吉市",98.8,0,48]]},{p:"島根県",c:[["松江市",100.2,0,205],["浜田市",98.8,0,58],["出雲市",99.4,0,178]]},{p:"岡山県",c:[["岡山市",101.6,3,720],["倉敷市",100.0,4,475],["津山市",99.1,0,100]]},{p:"広島県",c:[["広島市",99.9,10,1199],["呉市",99.7,4,218],["福山市",100.6,4,465],["東広島市",100.2,4,196]]},{p:"山口県",c:[["下関市",99.1,0,257],["宇部市",99.4,0,163],["山口市",99.9,0,195]]},{p:"徳島県",c:[["徳島市",99.8,0,252],["阿南市",99.1,0,73]]},{p:"香川県",c:[["高松市",100.4,8,419],["丸亀市",99.4,4,110]]},{p:"愛媛県",c:[["松山市",100.4,4,503],["今治市",99.1,0,156],["新居浜市",99.5,0,120]]},{p:"高知県",c:[["高知市",100.3,4,328],["南国市",99.1,0,48]]},{p:"福岡県",c:[["福岡市",101.2,10,1607],["北九州市",101.6,3,927],["久留米市",100.0,4,304],["春日市",101.1,8,107]]},{p:"佐賀県",c:[["佐賀市",100.0,0,234],["唐津市",98.9,0,118],["鳥栖市",99.8,4,75]]},{p:"長崎県",c:[["長崎市",100.0,0,403],["佐世保市",99.2,0,243],["諫早市",99.2,0,135]]},{p:"熊本県",c:[["熊本市",99.8,0,739],["八代市",99.2,0,127],["天草市",98.6,0,81]]},{p:"大分県",c:[["大分市",100.5,4,479],["別府市",99.4,0,118],["中津市",99.2,0,84]]},{p:"宮崎県",c:[["宮崎市",100.3,4,399],["都城市",99.1,0,161],["延岡市",99.0,0,121]]},{p:"鹿児島県",c:[["鹿児島市",99.4,4,599],["鹿屋市",97.3,0,103],["霧島市",97.6,0,127]]},{p:"沖縄県",c:[["那覇市",99.8,0,318],["沖縄市",97.4,0,143],["うるま市",97.9,0,124]]}];
+
+var ST={kind:'',job:null,pi:0,emp:'',laspa:0,chiiki:0,muni:''};
+var gData=null,gMode='both';
+var fmt=function(n){return Math.round(n).toLocaleString('ja-JP');};
+function gsal(sk,age){var a=S[sk];if(!a)return 0;var i=Math.max(0,Math.min(age-18,a.length-1));return a[i]||0;}
+function minage(j,edu){if(!j||!j.ma)return 18;var v=j.ma[edu];return(v!=null)?v:(j.ma.u||22);}
+function selVal(id){var e=document.getElementById(id);return e?parseInt(e.value,10)||0:0;}
+function ckd(id){var e=document.getElementById(id);return !!(e&&e.checked);}
+
+function calcTetori(nen){
+  var m=Math.round(nen/12);
+  var kk=Math.round(m*0.057)*12,nk=Math.round(m*0.0915)*12,sk=kk+nk;
+  function kyK(n){if(n<=1625000)return 550000;if(n<=1800000)return Math.round(n*0.4-100000);if(n<=3600000)return Math.round(n*0.3+80000);if(n<=6600000)return Math.round(n*0.2+440000);if(n<=8500000)return Math.round(n*0.1+1100000);return 1950000;}
+  var sh=Math.max(0,nen-kyK(nen)-sk-480000);
+  function sz(k){if(k<=1950000)return Math.round(k*0.05);if(k<=3300000)return Math.round(k*0.10-97500);if(k<=6950000)return Math.round(k*0.20-427500);if(k<=9000000)return Math.round(k*0.23-636000);if(k<=18000000)return Math.round(k*0.33-1536000);return Math.round(k*0.40-2796000);}
+  var st=Math.max(0,sz(sh)),fk=Math.round(st*0.021),jm=Math.round(sh*0.10)+5500;
+  return{kenko:kk,nenkin:nk,shakai:sk,st:st+fk,jumin:jm,tetori:nen-sk-st-fk-jm};
+}
+
+function genTimeline(j,sa,isK,lsp,chP,ey,mkE,maxAge){
+  var data=[],isJ=j.sp==='jieitai';
+  for(var age=sa;age<=maxAge;age++){
+    var base=gsal(j.sk,age);if(!base)continue;
+    var rky=isK?base:Math.round(base*lsp/100);
+    var ky=getAdjustedKyuyo(rky,mkE);
+    var ch=Math.round(ky*chP/100),kp=ky+ch,bm=isK?4.6:4.5;
+    var ns=kp*12+Math.round(kp*bm)+ey;
+    var t=calcTetori(ns),tn=age-sa+1,jn=isJ?getJtNen(tn,mkE):tn;
+    data.push({age:age,ns:ns,te:t.tetori,nen:tn,jtNen:jn,
+      tt:calcTaishoku(ky,jn,'teinen',mkE,isJ),
+      tj:calcTaishoku(ky,jn,'jiko',mkE,isJ)});
+  }
+  return data;
+}
+
+function getYrange(data,mode){
+  var vals=[];
+  data.forEach(function(d){
+    if(mode==='both'){vals.push(d.ns);vals.push(d.te);vals.push(d.tt);}
+    else if(mode==='nensei'){vals.push(d.ns);}
+    else if(mode==='tetori'){vals.push(d.te);}
+    else if(mode==='taishoku'){vals.push(d.tt);}
+  });
+  var maxV=Math.max.apply(null,vals);
+  var minV=Math.min.apply(null,vals.filter(function(v){return v>0;})||[0]);
+  var yMin=(mode==='taishoku')?0:Math.max(0,minV*0.85);
+  return{mn:yMin,mx:maxV*1.12};
+}
+
+function drawChart(data,mode,cid){
+  var cv=document.getElementById(cid||'mc');if(!cv||!data||!data.length)return;
+  var ctx=cv.getContext('2d'),W=cv.width,H=cv.height,pad={t:20,r:16,b:32,l:70};
+  ctx.clearRect(0,0,W,H);
+  var yr=getYrange(data,mode),mn=yr.mn,mx=yr.mx;
+  var ages=data.map(function(d){return d.age;});
+  function xp(a){return pad.l+(a-ages[0])/(ages[ages.length-1]-ages[0])*(W-pad.l-pad.r);}
+  function yp(v){return pad.t+(1-(v-mn)/(mx-mn))*(H-pad.t-pad.b);}
+  ctx.strokeStyle='rgba(0,0,0,0.06)';ctx.lineWidth=0.5;
+  for(var i=0;i<=5;i++){
+    var v=mn+(mx-mn)*i/5,y=yp(v);
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+    ctx.fillStyle='rgba(0,0,0,0.35)';ctx.font='10px Noto Sans JP,sans-serif';ctx.textAlign='right';
+    ctx.fillText(Math.round(v/10000)+'万',pad.l-4,y+3);
+  }
+  ages.forEach(function(a){
+    if((a-ages[0])%5===0||a===ages[ages.length-1]){
+      ctx.fillStyle='rgba(0,0,0,0.35)';ctx.font='10px Noto Sans JP,sans-serif';ctx.textAlign='center';
+      ctx.fillText(a+'歳',xp(a),H-6);
+    }
+  });
+  function line(vfn,color,dash){
+    ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=2;
+    if(dash)ctx.setLineDash([6,3]);else ctx.setLineDash([]);
+    data.forEach(function(d,i){var x=xp(d.age),v=vfn(d);if(v<=0&&dash)return;i===0?ctx.moveTo(x,yp(v)):ctx.lineTo(x,yp(v));});
+    ctx.stroke();ctx.setLineDash([]);
+  }
+  if(mode==='both'||mode==='nensei')line(function(d){return d.ns;},'#339af0',false);
+  if(mode==='both'||mode==='tetori')line(function(d){return d.te;},'#40c057',false);
+  if(mode==='both'||mode==='taishoku')line(function(d){return d.tt;},'#e67700',true);
+  gData=data;
+}
+
+function setupTip(cid){
+  var cv=document.getElementById(cid||'mc'),tip=document.getElementById('ct');if(!cv||!tip)return;
+  cv.addEventListener('mousemove',function(e){
+    if(!gData||!gData.length){tip.style.display='none';return;}
+    var r=cv.getBoundingClientRect(),x=e.clientX-r.left,ages=gData.map(function(d){return d.age;});
+    var ae=ages[0]+(x-70)/(cv.width-86)*(ages[ages.length-1]-ages[0]);
+    var d=gData.reduce(function(a,b){return Math.abs(b.age-ae)<Math.abs(a.age-ae)?b:a;});
+    tip.innerHTML='<div class="tip-age">'+d.age+'歳（在職'+d.nen+'年）</div>'+
+      '<div class="tip-row"><span>推定額面</span><span class="tip-val">約'+Math.round(d.ns/10000)+'万円</span></div>'+
+      '<div class="tip-row"><span>推定手取り</span><span class="tip-val">約'+Math.round(d.te/10000)+'万円</span></div>'+
+      '<div class="tip-row"><span style="color:#e67700">退職手当（定年）</span><span class="tip-val" style="color:#e67700">約'+Math.round(d.tt/10000)+'万円</span></div>';
+    tip.style.display='block';tip.style.left=Math.min(x+12,cv.width-180)+'px';tip.style.top=Math.max(8,e.clientY-r.top-64)+'px';
+  });
+  cv.addEventListener('mouseleave',function(){tip.style.display='none';});
+}
+
+function makeSel(id,opts,onChange){
+  var s=document.createElement('select');s.id=id;s.className='fg-sel';
+  opts.forEach(function(o){var op=document.createElement('option');op.value=String(o.val);op.textContent=o.text;s.appendChild(op);});
+  if(onChange)s.addEventListener('change',onChange);return s;
+}
+function toggleOT(pfx,j){
+  if(!j.ot)return;var mkd=MK[j.mk]||MK.gyosei_ch;if(mkd.length<=1)return;
+  var mkEl=document.getElementById(pfx+'mk');if(!mkEl)return;
+  var idx=parseInt(mkEl.value,10)||0,isK2=mkd[idx]&&(mkd[idx][1]>0);
+  var os=document.getElementById(pfx+'ot_sel'),on2=document.getElementById(pfx+'ot_note');
+  if(os){os.disabled=isK2;if(isK2)os.value='0';}
+  if(on2)on2.style.display=isK2?'block':'none';
+}
+function getCurTeinAge(pfx,j){
+  if(j.sp!=='jieitai')return 60;
+  var mkd=MK[j.mk]||MK.jieitai,mkEl=document.getElementById(pfx+'mk');
+  var idx=mkEl?parseInt(mkEl.value,10)||0:0,ta=getJtTeinAge(mkd[idx]||mkd[0]);return ta>0?ta:60;
+}
+
+function buildTeateForm(cid,pfx,j,onChange,isK){
+  var g=document.getElementById(cid);if(!g)return;g.innerHTML='';
+  var mkd=MK[j.mk]||MK.gyosei_ch;
+  var t1=document.createElement('div');t1.className='tsel';
+  var tn1=document.createElement('div');tn1.className='tnm';tn1.textContent='管理職手当（俸給の特別調整額）';t1.appendChild(tn1);
+  if(mkd.length===1){var s1=document.createElement('div');s1.className='tsb';s1.style.marginTop='5px';s1.textContent=mkd[0][0];t1.appendChild(s1);}
+  else{
+    var opts=mkd.map(function(m,i){
+      var lbl=m[0]+(m[1]>0?'　'+m[1].toLocaleString()+'円/月':'');
+      if(j.sp==='jieitai'&&m[4]>0)lbl+=' 定年'+m[4]+'歳';
+      if(j.sp==='jieitai'&&m[5]>0)lbl+='・除算'+m[5]+'年';
+      return{text:lbl,val:i};
+    });
+    var ms=makeSel(pfx+'mk',opts,function(){
+      toggleOT(pfx,j);
+      var ei=pfx==='k_'?'ke':'ce',el=document.getElementById(ei),edu=el?el.value:'u';
+      if(j.sp==='jieitai'){buildAgeSel(pfx==='k_'?'ka':'ca',j,edu,getCurTeinAge(pfx,j));}
+      onChange();
+    });t1.appendChild(ms);
+  }
+  g.appendChild(t1);
+  var t2=document.createElement('div');t2.className='tsel';var tn2=document.createElement('div');tn2.className='tnm';tn2.textContent='住居手当';t2.appendChild(tn2);
+  t2.appendChild(makeSel(pfx+'ju',[{text:'持ち家・社宅・家賃16,000円以下（支給なし）',val:0},{text:'家賃16,001〜34,000円 → 約9,000円/月',val:9000},{text:'家賃34,001〜68,000円 → 約19,000円/月',val:19000},{text:'家賃68,001円以上（上限28,000円/月）',val:28000}],onChange));g.appendChild(t2);
+  function addCk(id,nm,sb){var w=document.createElement('label');w.className='tck';var cb=document.createElement('input');cb.type='checkbox';cb.id=id;cb.addEventListener('change',function(){w.classList.toggle('on',cb.checked);onChange();});var d=document.createElement('div'),n=document.createElement('div'),s=document.createElement('div');n.className='tnm';n.textContent=nm;s.className='tsb';s.textContent=sb;d.appendChild(n);d.appendChild(s);w.appendChild(cb);w.appendChild(d);g.appendChild(w);}
+  addCk(pfx+'fs','扶養手当（配偶者）','6,500円/月');addCk(pfx+'fc1','扶養手当（子・16歳未満）','13,000円/月/人（令和8年4月〜）');addCk(pfx+'fc2','扶養手当（子・16〜22歳）','18,000円/月/人');addCk(pfx+'fp','扶養手当（父母等）','6,500円/月/人');addCk(pfx+'tk','通勤手当','実費支給（平均15,000円/月で試算）');addCk(pfx+'kr','寒冷地手当','世帯主17,800円×5ヶ月（北海道・東北等）');
+  if(isK&&j.sp==='honpo'){var t3=document.createElement('div');t3.className='tsel';var tn3=document.createElement('div');tn3.className='tnm';tn3.textContent='本府省業務調整手当';t3.appendChild(tn3);t3.appendChild(makeSel(pfx+'hp',[{text:'非対象（地方機関勤務）',val:0},{text:'係員相当（2級）→ 10,800円/月',val:10800},{text:'係長相当（4級）→ 24,100円/月',val:24100},{text:'課長補佐相当（6級）→ 49,200円/月',val:49200},{text:'室長相当（8級）→ 51,800円/月',val:51800}],onChange));g.appendChild(t3);}
+  if(j.sp==='ishi'){var t4=document.createElement('div');t4.className='tsel';var tn4=document.createElement('div');tn4.className='tnm';tn4.textContent='初任給調整手当（医師・人事院規則9-8）';t4.appendChild(tn4);t4.appendChild(makeSel(pfx+'ii',[{text:'採用16年以上（44歳以降・0円）',val:0},{text:'採用13〜15年目→ 約66,000〜91,000円/月',val:78500},{text:'採用10〜12年目→ 約116,000〜165,000円/月',val:140600},{text:'採用7〜9年目→ 約190,000〜240,000円/月',val:214900},{text:'採用4〜6年目→ 約265,000〜315,000円/月',val:289300},{text:'採用1〜3年目→ 約340,000〜413,000円/月',val:363700}],onChange));g.appendChild(t4);var iN=document.createElement('div');iN.className='isha-note';iN.innerHTML='⚠ <strong>医師の年収について：</strong>本シミュレーターは医療職俸給表（一）に基づく推計値です。公立病院の実態年収は宿日直手当・時間外手当等により大きく変動します。参考：勤務医の平均年収約1,436万円（令和5年・厚生労働省調査）。';g.appendChild(iN);var t4b=document.createElement('div');t4b.className='tsel';var tn4b=document.createElement('div');tn4b.className='tnm';tn4b.textContent='宿日直手当（医師）※管理職でも支給継続';t4b.appendChild(tn4b);t4b.appendChild(makeSel(pfx+'rd',[{text:'なし',val:0},{text:'月2回（16,000円×2）',val:32000},{text:'月4回（16,000円×4）',val:64000},{text:'月8回（16,000円×8）',val:128000}],onChange));g.appendChild(t4b);}
+  if(j.sp==='nurse'){var t5=document.createElement('div');t5.className='tsel';var tn5=document.createElement('div');tn5.className='tnm';tn5.textContent='夜間看護手当 ※管理職でも支給継続';t5.appendChild(tn5);t5.appendChild(makeSel(pfx+'nk',[{text:'なし',val:0},{text:'月2回（4,000円×2）',val:8000},{text:'月4回（4,000円×4）',val:16000},{text:'月8回（4,000円×8）',val:32000}],onChange));g.appendChild(t5);var t5b=document.createElement('div');t5b.className='tsel';var tn5b=document.createElement('div');tn5b.className='tnm';tn5b.textContent='宿日直手当（看護師）※管理職でも支給継続';t5b.appendChild(tn5b);t5b.appendChild(makeSel(pfx+'rn',[{text:'なし',val:0},{text:'月2回（6,000円×2）',val:12000},{text:'月4回（6,000円×4）',val:24000},{text:'月8回（6,000円×8）',val:48000}],onChange));g.appendChild(t5b);}
+  if(j.sp==='jieitai'){JTH.forEach(function(t){var w=document.createElement('label');w.className='tck';var cb=document.createElement('input');cb.type='checkbox';cb.id=pfx+t.id;cb.addEventListener('change',function(){w.classList.toggle('on',cb.checked);onChange();});var d=document.createElement('div'),n=document.createElement('div'),s=document.createElement('div');n.className='tnm';n.textContent=t.nm;s.className='tsb';s.textContent=t.info;d.appendChild(n);d.appendChild(s);w.appendChild(cb);w.appendChild(d);g.appendChild(w);});}
+  if(j.sp==='kyoshoku'){var a=document.createElement('div');a.className='tauto';var an=document.createElement('div');an.className='tnm';an.textContent='教職調整額（給特法・自動加算）';var as=document.createElement('div');as.className='tsb';as.textContent='給料月額×4%を年収に自動加算（残業代の代わり）';a.appendChild(an);a.appendChild(as);g.appendChild(a);}
+}
+
+function collectTeate(pfx,j,bky,ot){
+  var mkd=MK[j.mk]||MK.gyosei_ch,idx=0;
+  if(mkd.length>1){var me=document.getElementById(pfx+'mk');idx=me?parseInt(me.value,10)||0:0;}
+  var mkE=mkd[idx]||mkd[0],ky=getAdjustedKyuyo(bky,mkE);
+  var mk=mkE[1]||0,ju=selVal(pfx+'ju');
+  var fs=ckd(pfx+'fs')?6500:0,fc1=ckd(pfx+'fc1')?13000:0,fc2=ckd(pfx+'fc2')?18000:0,fp=ckd(pfx+'fp')?6500:0;
+  var tk=ckd(pfx+'tk')?15000:0,kr=ckd(pfx+'kr')?Math.round(17800*5/12):0;
+  var hp=selVal(pfx+'hp'),ii=selVal(pfx+'ii'),rd=selVal(pfx+'rd'),nk2=selVal(pfx+'nk'),rn=selVal(pfx+'rn');
+  var kyo=j.sp==='kyoshoku'?Math.round(ky*0.04)*12:0;
+  var isKan=mkd.length>1&&mk>0,eOt=isKan?0:ot;
+  var op=j.ot?Math.round(ky/168*1.25*eOt*12):0,ha=0;
+  if(j.sp==='jieitai'){JTH.forEach(function(t){if(ckd(pfx+t.id)){var b=t.base==='sh'?SHOGO:ky;ha+=Math.round(b*t.rate)*12;}});}
+  var mo=mk+ju+fs+fc1+fc2+fp+tk+kr+hp+ii,ya=mo*12+kyo+rd+nk2+rn;
+  var items=[];
+  if(mk>0)items.push(['管理職手当（月'+fmt(mk)+'円）',mk*12]);if(mkE[3]&&mkE[3]>0&&ky>bky)items.push(['俸給補正（案A・役職相当）',0,'info']);
+  if(ju>0)items.push(['住居手当（月'+fmt(ju)+'円）',ju*12]);if(fs>0)items.push(['扶養手当（配偶者）',fs*12]);if(fc1>0)items.push(['扶養手当（子・16歳未満）',fc1*12]);if(fc2>0)items.push(['扶養手当（子・16〜22歳）',fc2*12]);if(fp>0)items.push(['扶養手当（父母等）',fp*12]);if(tk>0)items.push(['通勤手当',tk*12]);if(kr>0)items.push(['寒冷地手当（年5ヶ月分）',17800*5]);if(hp>0)items.push(['本府省業務調整手当',hp*12]);if(ii>0)items.push(['初任給調整手当（医師）',ii*12]);if(rd>0)items.push(['宿日直手当（医師・年）',rd]);if(nk2>0)items.push(['夜間看護手当（年）',nk2]);if(rn>0)items.push(['宿日直手当（看護師・年）',rn]);if(kyo>0)items.push(['教職調整額（給料月額×4%・年）',kyo]);if(ha>0)items.push(['自衛官配置手当（年）',ha]);if(op>0)items.push(['時間外勤務手当（'+eOt+'時間/月）',op]);
+  return{allow:ya+ha+op,items:items,mkIdx:idx,mkEntry:mkE,isKanri:isKan,ky:ky};
+}
+
+function buildAgeSel(id,j,edu,maxAge){
+  var el=document.getElementById(id);if(!el)return;
+  var cur=parseInt(el.value,10)||30,mn=minage(j,edu),mx=maxAge||60;
+  el.innerHTML='';for(var a=18;a<=mx;a++){var o=document.createElement('option');o.value=a;o.textContent=a+'歳';el.appendChild(o);}
+  el.value=Math.max(mn,Math.min(cur,mx));
+}
+function otSelHTML(pfx,j){
+  if(!j.ot)return '<div class="fg"><label>残業時間</label><div class="ib" style="margin:0;font-size:11px">超過勤務手当は俸給に繰入済</div></div>';
+  if(j.sp==='kyoshoku')return '<div class="fg"><label>残業時間</label><div class="ib" style="margin:0;font-size:11px">給特法により残業代なし<br>教職調整額（給料×4%）が自動加算</div></div>';
+  return '<div class="fg"><label>残業時間（月）</label><select id="'+pfx+'ot_sel" class="fg-sel"><option value="0">なし</option><option value="10">少なめ（10時間）</option><option value="20" selected>平均的（20時間）</option><option value="40">多め（40時間）</option><option value="60">かなり多い（60時間）</option><option value="80">上限近く（80時間）</option></select><div id="'+pfx+'ot_note" class="ot-note">管理職員は超過勤務手当の支給対象外です（給与法第16条第1項）。管理職手当に代替されます。</div></div>';
+}
+
+function buildTaiHtml(j,ky,tn,mkE,ta,isJ){
+  var jz=isJ?getJtJozan(mkE):0,jn=isJ?getJtNen(tn,mkE):tn;
+  var tt=calcTaishoku(ky,jn,'teinen',mkE,isJ),tj=calcTaishoku(ky,jn,'jiko',mkE,isJ);
+  var jk=isJ?calcJakunen(ky,ta):{to60:0,to65:0,total:0,totalFull:0,totalAdj:0,to60Full:0,to65Full:0};
+  if(isJ&&ta>0){
+    var totalJt=tt+jk.totalAdj;
+    var jzNote=jz>0?'<div class="jt-note">📋 <strong>退職金計算用勤続年数について</strong><br>在職年数 '+tn+'年 から一般曹候補生の任期制期間 '+jz+'年 を除算。退職金計算用勤続年数：'+jn+'年（支給率：'+getTaiRate(jn)+'倍）<br>実際の除算年数は入隊区分・個人によって異なります。</div>':'';
+    var shNote=ta>=60?'<div class="jt-note" style="border-left-color:#40c057">📌 <strong>将補・将は定年60歳のため若年定年退職者給付金の対象外です</strong><br>若年定年退職者給付金は「一般自衛官より早く定年を迎えることへの補償」のため、60歳定年の将補・将には支給されません。その分、55〜57歳定年の曹・尉官より長く在職でき、生涯収入では将補・将が圧倒的に有利です。</div>':'';
+    var jkHtml=ta<60?'<div class="bd"><div class="bdh">若年定年退職者給付金の内訳（防衛省職員給与法）</div><div class="bdr"><span class="l">60歳まで（'+(60-ta)+'年×俸給月額×6ヶ月）【満額】</span><span class="r">'+fmt(jk.to60Full)+'円</span></div><div class="bdr"><span class="l">60〜65歳（5年×俸給月額×3.45ヶ月）【満額】</span><span class="r">'+fmt(jk.to65Full)+'円</span></div><div class="bdr"><span class="l">給付金合計【満額（法定上限）】</span><span class="r">'+fmt(jk.totalFull)+'円</span></div><div class="bdr" style="background:#fffbeb"><span class="l">再就職収入による減額係数</span><span class="r">× 60%（実態中央値）</span></div><div class="bdr btot"><span class="l">給付金合計【実態近似値】</span><span class="r">'+fmt(jk.totalAdj)+'円</span></div></div><div class="ib" style="border-left:3px solid #e67700;background:#fffbeb">⚠ 若年定年退職者給付金は退職翌年以降の再就職収入により減額・停止される場合があります。実態の平均受給額は約1,000〜1,450万円（防衛省資料）。本シミュレーターは実態中央値（満額の60%）で計算しています。</div>':'';
+    return '<div class="shd" style="margin-top:4px">退職給付の試算（在職'+tn+'年・退職金計算'+jn+'年・定年'+ta+'歳）</div>'+jzNote+shNote+'<div class="sg"><div class="sc"><div class="sl">退職手当（定年退職）</div><div class="sv">約'+Math.round(tt/10000)+'万円</div></div><div class="sc"><div class="sl">退職手当（自己都合）</div><div class="sv">約'+Math.round(tj/10000)+'万円</div></div>'+(ta<60?'<div class="sc"><div class="sl">若年給付金【実態近似・×60%】</div><div class="sv grn">約'+Math.round(jk.totalAdj/10000)+'万円</div></div><div class="sc"><div class="sl">退職手当＋給付金（定年）</div><div class="sv orn">約'+Math.round(totalJt/10000)+'万円</div></div>':'<div class="sc"><div class="sl">若年給付金</div><div class="sv">支給なし（60歳定年）</div></div><div class="sc"><div class="sl">退職手当のみ（定年）</div><div class="sv orn">約'+Math.round(tt/10000)+'万円</div></div>')+'</div>'+jkHtml+'<div class="ib">退職手当の全国平均は約1,792万円（自衛隊鳥取地方協力本部調査）。退職手当＋給付金の実態は約3,000万円前後（防衛省資料）。</div>';
+  } else {
+    return '<div class="shd" style="margin-top:4px">退職金の試算（勤続'+tn+'年時点）</div><div class="sg"><div class="sc"><div class="sl">定年・勧奨退職</div><div class="sv">約'+Math.round(tt/10000)+'万円</div></div><div class="sc"><div class="sl">自己都合退職</div><div class="sv">約'+Math.round(tj/10000)+'万円</div></div><div class="sc"><div class="sl">定年 vs 自己都合の差</div><div class="sv red">▲'+fmt(tt-tj)+'円</div></div></div><div class="ib">退職金＝退職時俸給月額×支給率（平成30年改正後）＋調整額（管理職区分×最大60月）</div>';
+  }
+}
+
+function renderResult(rid,j,bRaw,bKy,chAmt,lsp,nm,age,edu,ot,pfx,isK){
+  var el=document.getElementById(rid);if(!el)return;
+  var r=collectTeate(pfx,j,bKy,ot),ky=r.ky;
+  var kp=ky+chAmt,bm=isK?4.6:4.5,bonus=Math.round(kp*bm),total=kp*12+bonus+r.allow;
+  var adj=Math.round((lsp-100)*10)/10,eduL={u:'大卒',j:'短大・専門卒',h:'高卒'}[edu];
+  var sa=minage(j,edu),tn=age-sa+1,t=calcTetori(total),isJ=j.sp==='jieitai';
+  var ta=isJ?getJtTeinAge(r.mkEntry):60,maxAge=isJ&&ta>0?ta:60;
+  var chP=ky>0?Math.round(chAmt/ky*100):0;
+  var tl=genTimeline(j,sa,isK,lsp,chP,r.allow,r.mkEntry,maxAge);
+  var anA=r.mkEntry[3]&&r.mkEntry[3]>0&&ky>bKy?'<div class="ib b" style="margin-bottom:8px">📌 役職補正（案A）適用：標準昇給後 '+fmt(bKy)+'円 → 役職相当 '+fmt(ky)+'円 に上書き</div>':'';
+  var bdr='';
+  if(isK)bdr+='<div class="bdr"><span class="l">基本俸給（役職補正後・年）</span><span class="r">'+fmt(ky*12)+'円</span></div>';
+  else{bdr+='<div class="bdr"><span class="l">国標準給料（年）</span><span class="r">'+fmt(bRaw*12)+'円</span></div><div class="bdr"><span class="l">ラスパイレス補正（'+lsp+' / 国比'+(adj>=0?'+':'')+adj+'%）</span><span class="r">'+fmt(Math.round((bKy-bRaw)*12))+'円</span></div>';if(ky>bKy)bdr+='<div class="bdr"><span class="l">役職補正（案A・昇格相当）</span><span class="r">+'+fmt((ky-bKy)*12)+'円/年</span></div>';}
+  if(chAmt>0)bdr+='<div class="bdr"><span class="l">地域手当（年）</span><span class="r">'+fmt(chAmt*12)+'円</span></div>';
+  bdr+='<div class="bdr"><span class="l">ボーナス（年'+bm+'ヶ月）</span><span class="r">'+fmt(bonus)+'円</span></div>';
+  r.items.forEach(function(x){if(x[2]==='info')return;bdr+='<div class="bdr"><span class="l">'+x[0]+'</span><span class="r">'+fmt(x[1])+'円</span></div>';});
+  var taiHtml=buildTaiHtml(j,ky,tn,r.mkEntry,ta,isJ);
+
+  el.innerHTML='<div class="card">'+anA+
+    '<div class="hero-r"><div class="hvl">推定年収（額面）</div><div class="ham">約 '+Math.round(total/10000)+'<span>万円</span></div><div class="hsu">'+j.nm+'・'+nm+'・'+age+'歳・'+eduL+(r.isKanri?' 【管理職】':'')+(isJ&&ta>0?'・定年'+ta+'歳':'')+'</div></div>'+
+    '<div class="sg"><div class="sc"><div class="sl">月額給料（役職補正後）</div><div class="sv">'+fmt(ky)+'円</div></div><div class="sc"><div class="sl">地域手当込月額</div><div class="sv">'+fmt(kp)+'円</div></div><div class="sc"><div class="sl">ボーナス（年）</div><div class="sv">約'+Math.round(bonus/10000)+'万円</div></div><div class="sc"><div class="sl">'+(r.isKanri?'管理職手当（年）':j.sp==='kyoshoku'?'教職調整額（年）':j.ot?'残業代（年）':'ー')+'</div><div class="sv">'+(r.isKanri?'約'+Math.round((r.mkEntry[1]||0)*12/10000)+'万円':j.sp==='kyoshoku'?fmt(Math.round(ky*0.04)*12)+'円':j.ot?'約'+Math.round(r.items.reduce(function(a,x){return a+(x[2]!=='info'&&x[0].indexOf('時間外')>=0?x[1]:0);},0)/10000)+'万円':'ー')+'</div></div></div>'+
+    '<div class="hero2-r"><div class="hvl2">推定手取り年収（独身・無扶養）</div><div class="ham2">約 '+Math.round(t.tetori/10000)+'<span>万円</span></div></div>'+
+    '<div class="sg"><div class="sc"><div class="sl">手取り月換算</div><div class="sv grn">約'+Math.round(t.tetori/12/10000)+'万円/月</div></div><div class="sc"><div class="sl">手取り率</div><div class="sv">約'+Math.round(t.tetori/total*100)+'%</div></div><div class="sc"><div class="sl">社会保険料（年）</div><div class="sv red">▲'+fmt(t.shakai)+'円</div></div><div class="sc"><div class="sl">税金（所得税+住民税）</div><div class="sv red">▲'+fmt(t.st+t.jumin)+'円</div></div></div>'+
+    '<div class="bd"><div class="bdh">控除合計の内訳（令和6年度・独身・無扶養）</div><div class="bdr neg"><span class="l">健康保険料（共済・年）</span><span class="r">▲'+fmt(t.kenko)+'円</span></div><div class="bdr neg"><span class="l">厚生年金保険料（年）</span><span class="r">▲'+fmt(t.nenkin)+'円</span></div><div class="bdr neg"><span class="l">所得税・復興特別税（年）</span><span class="r">▲'+fmt(t.st)+'円</span></div><div class="bdr neg"><span class="l">住民税（年）</span><span class="r">▲'+fmt(t.jumin)+'円</span></div><div class="bdr btot2"><span class="l">推定手取り年収</span><span class="r">'+fmt(Math.round(t.tetori))+'円</span></div></div>'+
+    taiHtml+
+    '<div class="shd" style="margin-top:4px">年収・退職手当推移グラフ（'+sa+'歳〜'+maxAge+'歳）</div>'+
+    '<div class="tabs" id="tabs_'+pfx+'"><button class="tab on" data-mode="both">額面＋手取り＋退職手当</button><button class="tab" data-mode="nensei">額面のみ</button><button class="tab" data-mode="tetori">手取りのみ</button><button class="tab" data-mode="taishoku">退職手当のみ</button></div>'+
+    '<div class="leg" id="leg_'+pfx+'"><div class="leg-item"><div class="leg-dot" style="background:#339af0"></div>額面年収</div><div class="leg-item"><div class="leg-dot" style="background:#40c057"></div>手取り年収</div><div class="leg-item"><div style="width:22px;height:3px;border-top:3px dashed #e67700;display:inline-block;vertical-align:middle;margin-right:4px"></div>退職手当（定年）</div></div>'+
+    '<div class="chart-wrap"><canvas id="mc" width="680" height="260" style="width:100%;max-width:680px"></canvas><div class="tip" id="ct"></div></div>'+
+    '<div class="shd" style="margin-top:4px">年収の内訳（'+j.sub+'）</div>'+
+    '<div class="bd"><div class="bdh">構成要素</div>'+bdr+'<div class="bdr btot"><span class="l">合計（推定年収）</span><span class="r">'+fmt(Math.round(total))+'円</span></div></div>'+
+    '<div class="nt">※ 俸給は人事院モデル給与例（令和6年）に基づく推計。退職金支給率は平成30年1月1日以降の正値（勤続38年=47.709倍）。自衛官：年齢セレクトの上限を選択職位の定年年齢に連動。若年定年退職者給付金は満額の60%（実態中央値）で試算。医師の初任給調整手当は人事院規則9-8に基づく実態値（最大413,300円/月・採用16年で終了）。すべて参考値です。</div></div>';
+
+  gMode='both';
+  setTimeout(function(){
+    drawChart(tl,'both','mc');setupTip('mc');
+    var tabsEl=document.getElementById('tabs_'+pfx),legEl=document.getElementById('leg_'+pfx);
+    if(tabsEl){tabsEl.addEventListener('click',function(e){
+      var btn=e.target.closest('.tab');if(!btn)return;
+      tabsEl.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');gMode=btn.dataset.mode;
+      if(legEl){var lg='';if(gMode==='both'||gMode==='nensei')lg+='<div class="leg-item"><div class="leg-dot" style="background:#339af0"></div>額面年収</div>';if(gMode==='both'||gMode==='tetori')lg+='<div class="leg-item"><div class="leg-dot" style="background:#40c057"></div>手取り年収</div>';if(gMode==='both'||gMode==='taishoku')lg+='<div class="leg-item"><div style="width:22px;height:3px;border-top:3px dashed #e67700;display:inline-block;vertical-align:middle;margin-right:4px"></div>退職手当（定年）</div>';legEl.innerHTML=lg;}
+      drawChart(tl,gMode,'mc');
+    });}
+    hp();
+  },60);
+}
+
+function makeJobGrid(jobs,onSel){
+  var g=document.createElement('div');g.className='jg';
+  jobs.forEach(function(j){
+    var b=document.createElement('button');b.type='button';b.className='jbtn';
+    b.innerHTML='<div class="jic"><i class="ti '+j.ic+'"></i></div><div class="jnm">'+j.nm+'</div><div class="jsb">'+j.sub+'</div>';
+    b.addEventListener('click',function(e){e.preventDefault();g.querySelectorAll('.jbtn').forEach(function(x){x.classList.remove('on');});b.classList.add('on');onSel(j);});
+    g.appendChild(b);
+  });return g;
+}
+function makePrefSel(id,onCh){
+  var s=document.createElement('select');s.id=id;s.className='fg-sel';
+  MD.forEach(function(p,i){var o=document.createElement('option');o.value=i;o.textContent=p.p;s.appendChild(o);});
+  s.value=ST.pi;s.addEventListener('change',function(){ST.pi=parseInt(s.value,10);if(onCh)onCh();});return s;
+}
+function renderKoku(){
+  var ma=document.getElementById('MA');ma.innerHTML='';
+  var c1=document.createElement('div');c1.className='card';c1.innerHTML='<div class="shd">STEP 2　職種を選択</div>';
+  c1.appendChild(makeJobGrid(KJ,function(j){ST.job=j;renderKD();}));ma.appendChild(c1);
+  var d=document.createElement('div');d.id='kd';ma.appendChild(d);
+}
+function renderKD(){
+  var d=document.getElementById('kd');if(!d)return;d.innerHTML='';var j=ST.job;
+  var c2=document.createElement('div');c2.className='card';
+  c2.innerHTML='<div class="shd">STEP 3　勤務地（地域手当に影響）</div><div class="g2"><div class="fg"><label>都道府県</label><div id="kpw"></div></div><div class="fg"><label>市区町村</label><select id="kc" class="fg-sel"></select></div></div><div class="itag" id="kct">地域手当：-</div>';
+  d.appendChild(c2);document.getElementById('kpw').appendChild(makePrefSel('kp',function(){buildKC();doK();}));
+  var c3=document.createElement('div');c3.className='card';
+  c3.innerHTML='<div class="shd">STEP 4　基本情報</div><div class="g3"><div class="fg"><label>学歴</label><select id="ke" class="fg-sel"><option value="u">大学卒（22歳〜）</option><option value="j">短大・専門卒（20歳〜）</option><option value="h">高校卒（18歳〜）</option></select></div><div class="fg"><label>現在の年齢</label><select id="ka" class="fg-sel"></select></div>'+otSelHTML('k_',j)+'</div>';
+  d.appendChild(c3);
+  var c4=document.createElement('div');c4.className='card';c4.innerHTML='<div class="shd">STEP 5　各種手当</div><div class="tg" id="ktg"></div>';d.appendChild(c4);
+  var rv=document.createElement('div');rv.id='kr';d.appendChild(rv);
+  buildKC();buildAgeSel('ka',j,'u',j.sp==='jieitai'?55:60);
+  document.getElementById('ke').addEventListener('change',function(){buildAgeSel('ka',j,this.value,j.sp==='jieitai'?getCurTeinAge('k_',j):60);doK();});
+  document.getElementById('ka').addEventListener('change',doK);
+  var os=document.getElementById('k_ot_sel');if(os)os.addEventListener('change',doK);
+  buildTeateForm('ktg','k_',j,function(){toggleOT('k_',j);doK();},true);toggleOT('k_',j);doK();
+}
+function buildKC(){
+  var sc=document.getElementById('kc');if(!sc)return;sc.innerHTML='';
+  var pd=MD[ST.pi];if(!pd)return;
+  pd.c.forEach(function(c){var o=document.createElement('option');o.value=JSON.stringify([c[1],c[2]]);o.textContent=c[0];sc.appendChild(o);});
+  updateKC();sc.addEventListener('change',function(){updateKC();doK();});
+}
+function updateKC(){
+  var sc=document.getElementById('kc');if(!sc||!sc.value)return;
+  try{var v=JSON.parse(sc.value);ST.chiiki=v[1]||0;var t=document.getElementById('kct');if(t){t.className=ST.chiiki>0?'itag hi':'itag';t.textContent=ST.chiiki>0?'地域手当：'+ST.chiiki+'%（俸給月額の'+ST.chiiki+'%を加算）':'地域手当：なし';}}catch(e){}
+}
+function doK(){
+  var eEl=document.getElementById('ke'),aEl=document.getElementById('ka');if(!eEl||!aEl||!ST.job)return;
+  var edu=eEl.value,age=parseInt(aEl.value,10);
+  var os=document.getElementById('k_ot_sel'),ot=ST.job.ot?(os&&!os.disabled?parseInt(os.value,10)||0:0):0;
+  var base=gsal(ST.job.sk,age);
+  if(age<minage(ST.job,edu)||!base){var r=document.getElementById('kr');if(r)r.innerHTML='<div class="err">この学歴・年齢では試算できません</div>';return;}
+  var ch=Math.round(base*ST.chiiki/100),sc=document.getElementById('kc'),city=sc?sc.options[sc.selectedIndex].text:'';
+  tp([{l:'計算中...',p:40,ms:100},{l:'グラフ生成中...',p:80,ms:100}]);
+  renderResult('kr',ST.job,base,base,ch,100,MD[ST.pi].p+(city?'・'+city:''),age,edu,ot,'k_',true);
+}
+function renderChiho(){
+  var ma=document.getElementById('MA');ma.innerHTML='';
+  var c1=document.createElement('div');c1.className='card';c1.innerHTML='<div class="shd">STEP 2　都道府県を選択</div><div class="fg"><label>都道府県</label><div id="cpw"></div></div>';ma.appendChild(c1);
+  var c2=document.createElement('div');c2.className='card';c2.innerHTML='<div class="shd">STEP 3　雇用主の区分を選択</div><div class="g2" id="empT"></div>';ma.appendChild(c2);
+  var cja=document.createElement('div');cja.id='cja';ma.appendChild(cja);var cc=document.createElement('div');cc.id='cc';ma.appendChild(cc);
+  document.getElementById('cpw').appendChild(makePrefSel('cp',function(){if(ST.emp)setEmp(ST.emp);}));
+  [{e:'pref',ic:'ti-building-community',nm:'都道府県の職員',sb:'知事部局・都道府県警察<br>教育委員会・都道府県立病院等'},{e:'city',ic:'ti-home-2',nm:'市区町村の職員',sb:'市役所・区役所・町村役場<br>消防署・学校・病院等'}].forEach(function(dd){
+    var b=document.createElement('button');b.type='button';b.className='kbtn';b.id='be_'+dd.e;
+    b.innerHTML='<div class="kic"><i class="ti '+dd.ic+'"></i></div><div class="knm">'+dd.nm+'</div><div class="ksb">'+dd.sb+'</div>';
+    b.addEventListener('click',function(e){e.preventDefault();setEmp(dd.e);});document.getElementById('empT').appendChild(b);
+  });
+}
+function setEmp(e){
+  ST.emp=e;ST.job=null;document.querySelectorAll('#empT .kbtn').forEach(function(b){b.classList.remove('on');});
+  var btn=document.getElementById('be_'+e);if(btn)btn.classList.add('on');document.getElementById('cc').innerHTML='';buildCJobs();
+}
+function buildCJobs(){
+  var area=document.getElementById('cja');if(!area)return;area.innerHTML='';
+  var pl=PL[ST.pi];ST.laspa=pl[1];ST.chiiki=pl[2];ST.muni=pl[0];
+  if(ST.emp==='pref'){
+    var adj=Math.round((ST.laspa-100)*10)/10;
+    var c=document.createElement('div');c.className='card';
+    c.innerHTML='<div class="shd">STEP 4　職種を選択</div><div class="ib b">'+pl[0]+'の<strong>都道府県職員</strong>として採用される職種です。<br>ラスパイレス指数：<strong>'+ST.laspa+'</strong>（国比'+(adj>=0?'+':'')+adj+'%）　地域手当：'+(ST.chiiki>0?ST.chiiki+'%':'なし')+'</div>';
+    c.appendChild(makeJobGrid(PJ,function(j){ST.job=j;renderCC();}));area.appendChild(c);
+  } else {
+    var c2=document.createElement('div');c2.className='card';
+    c2.innerHTML='<div class="shd">STEP 4　市区町村を選択</div><div class="fg"><label>市区町村</label><select id="cm" class="fg-sel"></select></div><div class="itag" id="cmt">-</div>';area.appendChild(c2);
+    var cjc=document.createElement('div');cjc.className='card';cjc.id='cjc';cjc.style.display='none';
+    cjc.innerHTML='<div class="shd">STEP 5　職種を選択（この自治体に存在する職種のみ）</div><div id="cjg"></div>';area.appendChild(cjc);
+    var sc=document.getElementById('cm');
+    MD[ST.pi].c.forEach(function(c){var o=document.createElement('option');o.value=JSON.stringify([c[1],c[2],c[3]]);o.textContent=c[0];sc.appendChild(o);});
+    onCM();sc.addEventListener('change',function(){onCM();ST.job=null;document.getElementById('cc').innerHTML='';});
+  }
+}
+function onCM(){
+  var sc=document.getElementById('cm');if(!sc||!sc.value)return;
+  try{var v=JSON.parse(sc.value);ST.laspa=v[0];ST.chiiki=v[1];ST.muni=sc.options[sc.selectedIndex].text;
+  var pop=v[2]||0,adj=Math.round((ST.laspa-100)*10)/10;
+  var t=document.getElementById('cmt');if(t){t.className=ST.chiiki>0?'itag hi':'itag';t.textContent='ラスパイレス指数：'+ST.laspa+'（国比'+(adj>=0?'+':'')+adj+'%）　地域手当：'+(ST.chiiki>0?ST.chiiki+'%':'なし');}
+  var card=document.getElementById('cjc'),gw=document.getElementById('cjg');if(!card||!gw)return;gw.innerHTML='';
+  var av=CJ.filter(function(j){return(j.mp||0)<=pop;});
+  if(!av.length){gw.innerHTML='<div class="ib">この自治体の規模では選択可能な職種がありません</div>';card.style.display='block';return;}
+  card.style.display='block';gw.appendChild(makeJobGrid(av,function(j){ST.job=j;renderCC();}));}catch(e){}
+}
+function renderCC(){
+  var ca=document.getElementById('cc');if(!ca||!ST.job)return;ca.innerHTML='';
+  var step=ST.emp==='city'?6:5,j=ST.job;
+  var c1=document.createElement('div');c1.className='card';
+  c1.innerHTML='<div class="shd">STEP '+step+'　基本情報</div><div class="g3"><div class="fg"><label>学歴</label><select id="ce" class="fg-sel"><option value="u">大学卒（22歳〜）</option><option value="j">短大・専門卒（20歳〜）</option><option value="h">高校卒（18歳〜）</option></select></div><div class="fg"><label>現在の年齢</label><select id="ca" class="fg-sel"></select></div>'+otSelHTML('c_',j)+'</div>';
+  ca.appendChild(c1);
+  var c2=document.createElement('div');c2.className='card';c2.innerHTML='<div class="shd">STEP '+(step+1)+'　各種手当</div><div class="tg" id="ctg"></div>';ca.appendChild(c2);
+  var rv=document.createElement('div');rv.id='cr';ca.appendChild(rv);
+  buildAgeSel('ca',j,'u',j.sp==='jieitai'?55:60);
+  document.getElementById('ce').addEventListener('change',function(){buildAgeSel('ca',j,this.value,j.sp==='jieitai'?getCurTeinAge('c_',j):60);doC();});
+  document.getElementById('ca').addEventListener('change',doC);
+  var os=document.getElementById('c_ot_sel');if(os)os.addEventListener('change',doC);
+  buildTeateForm('ctg','c_',j,function(){toggleOT('c_',j);doC();},false);toggleOT('c_',j);doC();
+}
+function doC(){
+  var eEl=document.getElementById('ce'),aEl=document.getElementById('ca');if(!eEl||!aEl||!ST.job)return;
+  var edu=eEl.value,age=parseInt(aEl.value,10);
+  var os=document.getElementById('c_ot_sel'),ot=ST.job.ot?(os&&!os.disabled?parseInt(os.value,10)||0:0):0;
+  var base=gsal(ST.job.sk,age);
+  if(age<minage(ST.job,edu)||!base){var r=document.getElementById('cr');if(r)r.innerHTML='<div class="err">この学歴・年齢では試算できません</div>';return;}
+  var ky=Math.round(base*ST.laspa/100),ch=Math.round(ky*ST.chiiki/100);
+  tp([{l:'計算中...',p:40,ms:100},{l:'グラフ生成中...',p:80,ms:100}]);
+  renderResult('cr',ST.job,base,ky,ch,ST.laspa,ST.muni,age,edu,ot,'c_',false);
+}
+(function(){
+  var area=document.getElementById('kindArea');
+  [{k:'koku',ic:'ti-building-bank',nm:'国家公務員',sb:'俸給表は全国共通<br>地域手当で給与差'},{k:'chiho',ic:'ti-map-pin',nm:'地方公務員',sb:'都道府県または市区町村<br>ラスパイレス指数で補正'}].forEach(function(dd){
+    var b=document.createElement('button');b.type='button';b.className='kbtn';b.id='btn_'+dd.k;
+    b.innerHTML='<div class="kic"><i class="ti '+dd.ic+'"></i></div><div class="knm">'+dd.nm+'</div><div class="ksb">'+dd.sb+'</div>';
+    b.addEventListener('click',function(e){
+      e.preventDefault();ST.kind=dd.k;ST.job=null;ST.emp='';
+      document.querySelectorAll('#kindArea .kbtn').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on');document.getElementById('MA').innerHTML='';
+      tp([{l:'読み込み中...',p:40,ms:200},{l:'準備中...',p:80,ms:150}]);
+      if(dd.k==='koku')renderKoku();else renderChiho();
+    });area.appendChild(b);
+  });
+})();
+</script>
+</body>
+</html>

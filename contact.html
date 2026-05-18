@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ｜公務員年収シミュレーター</title>
+<meta name="description" content="公務員年収シミュレーターへのお問い合わせはこちらから。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans JP',sans-serif;background:#f8f9fa;color:#1a1a2e;line-height:1.8;font-size:15px}
+header{background:#1a1a2e;padding:16px 24px;display:flex;align-items:center;gap:16px}
+header a{color:#fff;text-decoration:none;font-size:13px;opacity:.7}
+header a:hover{opacity:1}
+header span{color:#fff;font-size:13px;opacity:.4}
+.container{max-width:640px;margin:48px auto;padding:0 24px 80px}
+h1{font-size:28px;font-weight:700;margin-bottom:12px}
+.lead{color:#666;margin-bottom:40px;font-size:14px;line-height:1.8}
+.form-card{background:#fff;border-radius:12px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.fg{margin-bottom:24px}
+.fg label{display:block;font-size:13px;font-weight:500;margin-bottom:8px;color:#333}
+.fg label span{color:#e74c3c;margin-left:4px;font-size:12px}
+.fg input,.fg select,.fg textarea{width:100%;font-size:14px;font-family:'Noto Sans JP',sans-serif;padding:10px 14px;border:1.5px solid #ddd;border-radius:8px;color:#1a1a2e;background:#fff;transition:border-color .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:#1a1a2e}
+.fg textarea{resize:vertical;min-height:140px;line-height:1.7}
+.note{font-size:12px;color:#999;margin-top:6px}
+.btn{width:100%;padding:14px;background:#1a1a2e;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:500;font-family:'Noto Sans JP',sans-serif;cursor:pointer;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.success{display:none;background:#d4edda;color:#155724;border-radius:8px;padding:20px;text-align:center;font-size:14px;margin-top:20px}
+.info{background:#f0f4ff;border-radius:8px;padding:16px 20px;margin-bottom:32px;font-size:13px;color:#444;line-height:1.7}
+.info strong{color:#1a1a2e}
+footer{text-align:center;padding:32px;font-size:12px;color:#aaa;border-top:1px solid #e9ecef;background:#fff;margin-top:40px}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html">← トップに戻る</a>
+  <span>/</span>
+  <span style="color:#fff;opacity:.9">お問い合わせ</span>
+</header>
+<div class="container">
+  <h1>お問い合わせ</h1>
+  <p class="lead">シミュレーターの不具合・ご意見・掲載情報の誤りなどはこちらからご連絡ください。<br>通常2〜3営業日以内にご返信いたします。</p>
+
+  <div class="info">
+    <strong>よくあるお問い合わせ</strong><br>
+    計算結果についての詳細は<a href="privacy.html#disclaimer">免責事項</a>をご確認ください。シミュレーターはあくまで参考値であり、実際の給与は各省庁・自治体にご確認ください。
+  </div>
+
+  <div class="form-card">
+    <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="fg">
+        <label>お名前<span>必須</span></label>
+        <input type="text" name="name" placeholder="山田 太郎" required>
+      </div>
+      <div class="fg">
+        <label>メールアドレス<span>必須</span></label>
+        <input type="email" name="email" placeholder="example@email.com" required>
+      </div>
+      <div class="fg">
+        <label>お問い合わせ種別<span>必須</span></label>
+        <select name="category" required>
+          <option value="">選択してください</option>
+          <option value="bug">不具合の報告</option>
+          <option value="data">掲載データの誤り</option>
+          <option value="feature">機能追加のご要望</option>
+          <option value="other">その他</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>お問い合わせ内容<span>必須</span></label>
+        <textarea name="message" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+        <p class="note">※個人情報（氏名・住所・電話番号等）はご記入いただく必要はありません</p>
+      </div>
+      <button type="submit" class="btn">送信する</button>
+    </form>
+    <div class="success" id="successMsg">
+      ✅ お問い合わせを受け付けました。ご連絡ありがとうございます。
+    </div>
+  </div>
+</div>
+<footer>© 2025 公務員年収シミュレーター｜すべて参考値です</footer>
+
+<script>
+// Formspreeを使わずGoogleフォームなどに差し替えてもOK
+// 現状はデモ用のフォーム送信処理
+document.getElementById('contactForm').addEventListener('submit',function(e){
+  // Formspreeのフォームエンドポイントを設定した場合は以下のコメントアウトを外す
+  // e.preventDefault();
+  // fetch送信処理
+});
+</script>
+</body>
+</html>
